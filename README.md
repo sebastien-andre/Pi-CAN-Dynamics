@@ -13,7 +13,7 @@ Long term, Pi-CAN Dynamics will train an **AI predictive model** capable of anal
 
 This project also served as a way for me to explore **embedded systems**, **vehicle telemetry**, and **machine learning** integration in a real-world automotive environment.
 
-
+![CAN Logger Output](images/logger.jpg)
 
 ## Hardware
 
