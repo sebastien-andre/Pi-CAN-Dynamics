@@ -41,3 +41,9 @@ This project also served as a way for me to explore **embedded systems**, **vehi
 
 
 
+
+## Project Structure
+
+- **`logger.py`** — main script for reading live CAN data and logging decoded values to CSV  
+- **`config.json`** — defines all CAN message IDs, signal names, scaling, and formulas  
+- **`logs/`** — stores recorded CAN data (`decoded_*.csv`) and runtime logs (`pedal_monitor_*.log`)  

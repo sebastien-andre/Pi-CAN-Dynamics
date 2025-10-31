@@ -1,0 +1,120 @@
+{
+  "0x18": {
+    "desc": "Steering angle (fast update)",
+    "signals": {
+      "steering_angle_deg": { "start": 0, "length": 2, "scale": 0.1 }
+    }
+  },
+
+  "0xD0": {
+    "desc": "Steering, yaw, lateral/longitudinal accel",
+    "signals": {
+      "steering_angle_deg": { "start": 0, "length": 2, "scale": -0.1 },
+      "yaw_rate_deg_s": { "start": 2, "length": 2, "scale": -0.286478897 },
+      "lat_accel_g": { "start": 6, "length": 1, "scale": 0.2 },
+      "long_accel_g": { "start": 7, "length": 1, "scale": -0.1 },
+      "combined_accel_g": { "derived": "sqrt((bytes_to_int_le(raw,6,1)*0.2)**2 + (bytes_to_int_le(raw,7,1)*0.1)**2)" }
+    }
+  },
+
+  "0xD1": {
+    "desc": "Vehicle speed and brake system pressure",
+    "signals": {
+      "speed_kph": { "start": 0, "length": 2, "scale": 0.015694 },
+      "brake_position_pct": { "start": 2, "length": 1, "formula": "min(x/0.7, 100)" },
+      "brake_pressure_bar": { "start": 2, "length": 1 }
+    }
+  },
+
+  "0xD4": {
+    "desc": "Individual wheel speeds",
+    "signals": {
+      "wheel_fl_kph": { "start": 0, "length": 2, "scale": 0.015694 },
+      "wheel_fr_kph": { "start": 2, "length": 2, "scale": 0.015694 },
+      "wheel_rl_kph": { "start": 4, "length": 2, "scale": 0.015694 },
+      "wheel_rr_kph": { "start": 6, "length": 2, "scale": 0.015694 }
+    }
+  },
+
+  "0x140": {
+    "desc": "Accelerator, clutch, RPM, throttle valve",
+    "signals": {
+      "accelerator_pct": { "start": 0, "length": 1, "scale": 0.3921568627 },
+      "clutch_position_pct": { "start": 1, "length": 1, "formula": "(x & 0x80) / 1.28" },
+      "engine_rpm": { "bits": [16, 14] },
+      "throttle_valve_pct": { "start": 6, "length": 1, "scale": 0.3921568627 }
+    }
+  },
+
+  "0x141": {
+    "desc": "Pedal position, engine load, gear estimate",
+    "signals": {
+      "accelerator_raw": { "start": 0, "length": 2 },
+      "engine_load_raw": { "start": 2, "length": 2 },
+      "engine_rpm": { "bits": [32, 14] },
+      "gear": { "start": 6, "length": 1, "formula": "(x & 0x0F) if (x & 0x0F)!=7 else 0" }
+    }
+  },
+
+  "0x144": {
+    "desc": "Brake pedal pressed",
+    "signals": {
+      "brake_pressed": { "start": 6, "length": 1, "formula": "(x & 8)/8" }
+    }
+  },
+
+  "0x152": {
+    "desc": "Handbrake and brake pedal flags",
+    "signals": {
+      "handbrake_on": { "start": 6, "length": 1, "formula": "(x & 8)/8" },
+      "brake_pressed": { "start": 6, "length": 1, "formula": "(x & 16)/16" }
+    }
+  },
+
+  "0x282": {
+    "desc": "Seatbelt status",
+    "signals": {
+      "seatbelt_driver_fastened": { "start": 5, "length": 1, "formula": "(x & 1)==0" }
+    }
+  },
+
+  "0x360": {
+    "desc": "Oil temp, coolant temp, cruise control",
+    "signals": {
+      "engine_oil_temp_C": { "start": 2, "length": 1, "offset": -40 },
+      "coolant_temp_C": { "start": 3, "length": 1, "offset": -40 },
+      "cruise_on": { "start": 5, "length": 1, "formula": "(x & 16)/16" },
+      "cruise_set": { "start": 5, "length": 1, "formula": "(x & 32)/32" },
+      "cruise_speed_raw": { "start": 7, "length": 1 }
+    }
+  },
+
+  "0x361": {
+    "desc": "Gear report",
+    "signals": {
+      "gear": { "start": 0, "length": 1, "formula": "x & 0x7" }
+    }
+  },
+
+  "0x374": {
+    "desc": "Doors, fog lights, boot",
+    "signals": {
+      "driver_door_open": { "start": 3, "length": 1, "formula": "x & 1" },
+      "passenger_door_open": { "start": 3, "length": 1, "formula": "(x & 2)/2" },
+      "fog_lights_on": { "start": 1, "length": 1, "formula": "(x & 128)/128" },
+      "boot_open": { "start": 3, "length": 1, "formula": "(x & 32)/32" }
+    }
+  },
+
+  "0x375": {
+    "desc": "Door and light flags",
+    "signals": {
+      "driver_door_open": { "start": 1, "length": 1, "formula": "x & 1" },
+      "passenger_door_open": { "start": 1, "length": 1, "formula": "(x & 2)/2" },
+      "boot_open": { "start": 1, "length": 1, "formula": "(x & 32)/32" },
+      "either_door_open": { "start": 3, "length": 1, "formula": "(x & 4)/4" },
+      "lights_on": { "start": 3, "length": 1, "formula": "(x & 8)/8" }
+    }
+  }
+}
+
